@@ -1,7 +1,7 @@
 import { Carousel, Col, Container, Row } from 'react-bootstrap'
 import dishes from '../data/menu.json'
 import { useState } from 'react'
-// import DishComments from './DishComments'
+import DishComments from './DishComments'
 import upperName from '../helpers/lib'
 
 // { title }
@@ -9,18 +9,38 @@ interface HomeProps {
     title : string;
     
 }
-// interface dishes{
+// interface dishesState{
 //     id:number
 //     name:string
 //     description: string
 //     image:string
 
 // }
-
-const Home = ({title}:HomeProps) => {
-  const [selected, setSelected] = useState(null)
+interface selected{ 
+    id?:number,
+   name:string,
+   image:string,
+   label:string,
+   category: string,
+   price:string,
+   description:string,
+   comments: comment[]
+ }
 console.log(dishes)
- console.log(title)
+
+interface comment {
+    
+        id:number,
+        rating:number,
+        comment:string,
+        date:string
+      
+}
+ 
+const Home = ({title}:HomeProps) => {
+  const [selected, setSelected] = useState<selected| undefined>()
+//   const [ishesState,setDishes]=useState([]
+console.log(title)
   return (
     <Container>
       <Row className="justify-content-center mt-3">
@@ -30,14 +50,16 @@ console.log(dishes)
           <Carousel>
              
             {dishes.map((dish, i) => ( 
-           
+           console.log(dish.image),
+           console.log(i),
               <Carousel.Item
             key={dish.id}
+                     onClick={() => {
+                  setSelected(dish)
+                }}  
               >  
                    
-             {/* onClick={() => {
-                  setSelected(dish)
-                }}   */}
+            
                 <img className="d-block w-100" src={dish.image} alt={'slide number ' + (i + 1)} />
                 <Carousel.Caption>
                     
@@ -48,7 +70,8 @@ console.log(dishes)
             ))}
           </Carousel>
         </Col>
-        {/* <DishComments selectedPasta={selected} /> */}
+        <DishComments selectedPasta={selected} />
+        
       </Row>
     </Container>
   )
